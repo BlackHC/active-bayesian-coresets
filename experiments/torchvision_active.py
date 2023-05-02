@@ -11,7 +11,8 @@ import acs.acquisition_functions as A
 from acs.coresets import Argmax, Random, KCenter, KMedoids
 from acs.al_data_set import Dataset, ActiveLearningDataset as ALD
 
-from resnet.resnets import resnet18
+# from resnet.resnets import resnet18
+from acs.repeated_mnist import LeNetv2
 
 parser = argparse.ArgumentParser()
 
@@ -36,7 +37,7 @@ parser.add_argument("--cov_rank", type=int, default=2, help='Rank of cov matrix 
 # active learning params
 parser.add_argument('--budget', type=int, default=10000, help='Active learning budget')
 parser.add_argument('--batch_size', type=int, default=100, help='Active learning batch size')
-parser.add_argument('--acq', default='BALD', help='AL acquisition function (BALD, Entropy, None)')
+parser.add_argument('--acq', default='PBALD', help='AL acquisition function (PBALD, BALD, Entropy, None)')
 parser.add_argument('--num_features', type=int, default=256, help='Number of features in feature extractor.')
 parser.add_argument('--coreset', default='Argmax', help='Coreset algo (Argmax, Random, KCenter, KMedoids, Best)')
 parser.add_argument("--pretrained_model", dest="pretrained_model", default=False, action="store_true",
@@ -50,14 +51,15 @@ if __name__ == '__main__':
     torch.manual_seed(args.seed)
 
     num_test_points = 10000
-    if args.dataset == 'fashion_mnist':
+    if args.dataset == 'fashion_mnist' or args.dataset == 'dirty_mnist':
         from acs.al_data_set import mnist_train_transform as train_transform, mnist_test_transform as test_transform
     else:
         from acs.al_data_set import torchvision_train_transform as train_transform, torchvision_test_transform as test_transform
         if args.dataset == 'svhn':
             num_test_points = 26032
 
-    model = resnet18(pretrained=args.pretrained_model, pretrained_model_file=args.model_file, resnet_size=84)
+    # model = resnet18(pretrained=args.pretrained_model, pretrained_model_file=args.model_file, resnet_size=84)
+    model = LeNetv2()
     model = utils.to_gpu(model)
     dataset = utils.get_torchvision_dataset(
         name=args.dataset,
@@ -103,6 +105,8 @@ if __name__ == '__main__':
         acq = A.class_bald
     elif args.acq == 'Entropy':
         acq = A.class_maxent
+    elif args.acq == 'PBALD':
+        acq = A.class_pbald
     elif args.acq == 'None':
         acq = lambda *args, **kwargs: None  # not needed
     else:

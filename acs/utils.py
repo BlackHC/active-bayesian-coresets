@@ -7,6 +7,7 @@ import torch
 import torchvision
 
 import acs.acquisition_functions as A
+from acs.repeated_mnist import create_repeated_MNIST_dataset
 
 
 matplotlib.rcParams.update({'font.size': 16})
@@ -135,6 +136,8 @@ def get_torchvision_dataset(name, model=None, encode=False, seed=111, data_dir='
         data_loader = torchvision.datasets.SVHN
     elif name == 'fashion_mnist':
         data_loader = torchvision.datasets.FashionMNIST
+    elif name == 'dirty_mnist':
+        pass
     else:
         raise ValueError('Unknown dataset: {}'.format(name))
 
@@ -145,12 +148,17 @@ def get_torchvision_dataset(name, model=None, encode=False, seed=111, data_dir='
         X_train, Y_train = train.data, train.labels
         X_test, Y_test = test.data, test.labels
         X = np.vstack((X_train, X_test))
+
     else:
-        train = data_loader(root=data_dir + name, train=True, download=True)
-        test = data_loader(root=data_dir + name, train=False, download=True)
-        X_train, Y_train = train.data, train.targets
-        X_test, Y_test = test.data, test.targets
-        if name == 'fashion_mnist':
+        if name == 'dirty_mnist':
+            X_train, Y_train, test = create_repeated_MNIST_dataset()
+            X_test, Y_test = test.data, test.targets
+        else:
+            train = data_loader(root=data_dir + name, train=True, download=True)
+            test = data_loader(root=data_dir + name, train=False, download=True)
+            X_train, Y_train = train.data, train.targets
+            X_test, Y_test = test.data, test.targets
+        if name == 'fashion_mnist' or name == 'dirty_mnist':
             X_train = X_train[..., None]
             X_test = X_test[..., None]
         X = np.vstack((np.transpose(X_train, [0, 3, 1, 2]), np.transpose(X_test, [0, 3, 1, 2])))

@@ -26,19 +26,21 @@ torchvision_test_transform = transforms.Compose([
 mnist_train_transform = transforms.Compose([
     transforms.ToPILImage(),
     transforms.Resize((PX_SIZE, PX_SIZE), interpolation=PIL.Image.LANCZOS),
-    transforms.Grayscale(num_output_channels=3),
+   # transforms.Grayscale(num_output_channels=1),
     transforms.RandomCrop(PX_SIZE, padding=4),
     transforms.RandomHorizontalFlip(),
     transforms.ToTensor(),
-    transforms.Normalize(mean=[0.1307, 0.1307, 0.1307], std=[0.3081, 0.3081, 0.3081])
+    # transforms.Normalize(mean=[0.1307, 0.1307, 0.1307], std=[0.3081, 0.3081, 0.3081])
+    transforms.Normalize(mean=[0.1307], std=[0.3081])
 ])
 
 mnist_test_transform = transforms.Compose([
     transforms.ToPILImage(),
     transforms.Resize((PX_SIZE, PX_SIZE), interpolation=PIL.Image.LANCZOS),
-    transforms.Grayscale(num_output_channels=3),
+    #transforms.Grayscale(num_output_channels=1),
     transforms.ToTensor(),
-    transforms.Normalize(mean=[0.1307, 0.1307, 0.1307], std=[0.3081, 0.3081, 0.3081])
+    # transforms.Normalize(mean=[0.1307, 0.1307, 0.1307], std=[0.3081, 0.3081, 0.3081])
+    transforms.Normalize(mean=[0.1307], std=[0.3081])
 ])
 
 

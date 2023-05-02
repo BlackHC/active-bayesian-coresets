@@ -9,7 +9,8 @@ import acs.utils as utils
 from acs.coresets import ProjectedFrankWolfe
 from acs.al_data_set import Dataset, ActiveLearningDataset as ALD
 
-from resnet.resnets import resnet18
+# from resnet.resnets import resnet18
+from acs.repeated_mnist import LeNetv2
 
 
 parser = argparse.ArgumentParser()
@@ -50,14 +51,15 @@ if __name__ == '__main__':
     torch.manual_seed(args.seed)
 
     num_test_points = 10000
-    if args.dataset == 'fashion_mnist':
+    if args.dataset == 'fashion_mnist' or args.dataset == 'dirty_mnist':
         from acs.al_data_set import mnist_train_transform as train_transform, mnist_test_transform as test_transform
     else:
         from acs.al_data_set import torchvision_train_transform as train_transform, torchvision_test_transform as test_transform
         if args.dataset == 'svhn':
             num_test_points = 26032
 
-    model = resnet18(pretrained=args.pretrained_model, pretrained_model_file=args.model_file, resnet_size=84)
+    # model = resnet18(pretrained=args.pretrained_model, pretrained_model_file=args.model_file, resnet_size=84)
+    model = LeNetv2()
     model = utils.to_gpu(model)
     dataset = utils.get_torchvision_dataset(
         name=args.dataset,
@@ -93,6 +95,8 @@ if __name__ == '__main__':
     else:
         raise ValueError('Invalid inference method: {}'.format(args.inference))
 
+    #lenet
+    kwargs['num_features'] = 84
     print('==============================================================================================')
     print(title_str)
     print('==============================================================================================')

@@ -1,9 +1,9 @@
 #!/bin/bash
 
 
-batch_sizes=("3000")
-init_num_labeled=1000
-budget=12000
+batch_sizes=("25")
+init_num_labeled=350
+budget=500
 dataset=$3
 
 if [ $dataset == "cifar10" ]; then
@@ -15,10 +15,12 @@ elif [ $dataset == "svhn" ]; then
     weight_decay=5e-4
 elif [ $dataset == "fashion_mnist" ]; then
     weight_decay=5e-4
+elif [ $dataset == "dirty_mnist" ]; then
+    weight_decay=5e-4
 fi
 
 for batch_size in "${batch_sizes[@]}"; do
-    for seed in {0..4}; do
-        python ./experiments/torchvision_active.py --acq $1 --coreset $2 --dataset $dataset --batch_size $batch_size --seed $seed --budget $budget --init_num_labeled $init_num_labeled --num_features 32 --freq_summary 50 --weight_decay $weight_decay
+    for seed in {0..2}; do
+        python -m experiments.torchvision_active --acq $1 --coreset $2 --dataset $dataset --batch_size $batch_size --seed $seed --budget $budget --init_num_labeled $init_num_labeled --num_features 32 --freq_summary 50 --weight_decay $weight_decay
     done
 done
