@@ -158,6 +158,23 @@ class Argmax(ImportanceSampling):
         return w
 
 
+class PBALD(ImportanceSampling):
+
+    def __init_build(self, M=1, seed=None):
+        pass
+
+    def _step(self, m, w, **kwargs):
+        distributions = np.clip(self.scores, 0, None)
+        distributions /= distributions.sum()
+
+        if (distributions > 0).sum() < m:
+            distributions = np.ones_like(distributions) / len(distributions)
+            w[distributions] = 1.
+        else:
+            indices = np.random.choice(len(distributions), m, replace=False, p=distributions)
+            w[indices] = 1.
+        return w
+
 class FrankWolfe(CoresetConstruction):
     def __init__(self, acq, data, posterior, dotprod_fn=None, **kwargs):
         """

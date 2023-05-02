@@ -8,7 +8,7 @@ import time
 
 import acs.utils as utils
 import acs.acquisition_functions as A
-from acs.coresets import Argmax, Random, KCenter, KMedoids
+from acs.coresets import Argmax, Random, KCenter, KMedoids, PBALD
 from acs.al_data_set import Dataset, ActiveLearningDataset as ALD
 
 # from resnet.resnets import resnet18
@@ -95,7 +95,8 @@ if __name__ == '__main__':
     else:
         raise ValueError('Invalid inference method: {}'.format(args.inference))
 
-
+    #lenet
+    kwargs['num_features'] = 84
     print('==============================================================================================')
     print(title_str)
     print('==============================================================================================')
@@ -114,6 +115,8 @@ if __name__ == '__main__':
 
     if args.coreset == 'Argmax':
         coreset = Argmax
+    elif args.coreset == 'PBALD':
+        coreset = PBALD
     elif args.coreset == 'Random':
         coreset = Random
     elif args.coreset == 'KMedoids':
