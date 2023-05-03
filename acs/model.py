@@ -510,7 +510,10 @@ class NeuralClassification(nn.Module):
             self.num_features = num_features
         else:
             self.num_features = num_features
-        self.fc1 = nn.Linear(in_features=512, out_features=self.num_features, bias=True)
+
+        # changed for lenet
+        # self.fc1 = nn.Linear(in_features=512, out_features=self.num_features, bias=True)
+        self.fc1 = nn.Linear(in_features=120, out_features=self.num_features, bias=True)
         self.fc2 = nn.Linear(in_features=self.num_features, out_features=self.num_features, bias=True)
         nn.init.xavier_normal_(self.fc1.weight)
         nn.init.xavier_normal_(self.fc2.weight)
@@ -518,7 +521,7 @@ class NeuralClassification(nn.Module):
             self.linear = ReparamFullDense([self.num_features, self.num_classes], rank=cov_rank)
         else:
             self.linear = LocalReparamDense([self.num_features, self.num_classes])
-
+        print("shape of the layer", self.num_features)
         self.softmax = nn.Softmax()
         self.relu = nn.ReLU()
         self.cross_entropy = nn.CrossEntropyLoss(reduction='none')

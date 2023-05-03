@@ -151,7 +151,7 @@ def get_torchvision_dataset(name, model=None, encode=False, seed=111, data_dir='
 
     else:
         if name == 'dirty_mnist':
-            X_train, Y_train, test = create_repeated_MNIST_dataset()
+            X_train, Y_train, test = create_repeated_MNIST_dataset(seed=seed)
             X_test, Y_test = test.data, test.targets
         else:
             train = data_loader(root=data_dir + name, train=True, download=True)
@@ -172,7 +172,7 @@ def get_torchvision_dataset(name, model=None, encode=False, seed=111, data_dir='
             encodings = [model(batch) for batch in image_batches]
         X = torch.cat(encodings).cpu().numpy()
 
-    return (X, Y[:, None]), split_data(len(X), **kwargs)
+    return (X, Y[:, None]), split_data(len(X), seed=seed, **kwargs)
 
 
 def split_data(N, p_split=(0.6, 0.2, 0.2), n_split=None, shuffle=True, seed=None):

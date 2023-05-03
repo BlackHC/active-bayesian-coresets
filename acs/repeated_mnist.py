@@ -10,7 +10,7 @@ from torchvision import datasets, transforms
 # Cell
 
 
-def create_repeated_MNIST_dataset(*, num_repetitions: int = 3, add_noise: bool = True):
+def create_repeated_MNIST_dataset(*, num_repetitions: int = 3, seed: int = 222, add_noise: bool = True):
     # num_classes = 10, input_size = 28
 
     train_dataset = datasets.MNIST("data", train=True, download=True)
@@ -21,7 +21,7 @@ def create_repeated_MNIST_dataset(*, num_repetitions: int = 3, add_noise: bool =
         Y_train = torch.concat([Y_train] * num_repetitions)
 
     if add_noise:
-        dataset_noise = torch.empty((len(X_train), 28, 28), dtype=torch.float32).normal_(0.0, 0.1)
+        dataset_noise = torch.empty((len(X_train), 28, 28), dtype=torch.float32).normal_(0.0, 0.1, generator=torch.Generator().manual_seed(seed))
 
         X_train = X_train.float()
         for idx in range(len(X_train)):
@@ -34,7 +34,7 @@ def create_repeated_MNIST_dataset(*, num_repetitions: int = 3, add_noise: bool =
 
 
 def create_MNIST_dataset():
-    return create_repeated_MNIST_dataset(num_repetitions=1, add_noise=False)
+    return create_repeated_MNIST_dataset(num_repetitions=1, seed = 222, add_noise=False)
 
 
 def get_targets(dataset):

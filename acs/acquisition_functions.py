@@ -197,6 +197,7 @@ def class_pbald(theta_mean, theta_cov, X, model=None, num_samples=100, temp=1.0)
     scores = scores / scores.sum()
     return scores
 
+
 def class_maxent(theta_mean, theta_cov, X, model=None, num_samples=100):
     """
     Computes MaxEnt acquisition function for categorical predictive posterior.

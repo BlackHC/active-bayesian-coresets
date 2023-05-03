@@ -158,6 +158,26 @@ class Argmax(ImportanceSampling):
         return w
 
 
+class PBALD(ImportanceSampling):
+
+    def _init_build(self, M=1, seed=None):
+        distributions = np.clip(self.scores, 0, None)
+        distributions /= distributions.sum()
+
+        available_M = (distributions > 0).sum()
+        indices = np.random.choice(len(distributions), min(M, available_M), replace=False, p=distributions)
+        
+        if available_M < M:
+            additional_indices = np.random.choice(len(distributions), M - available_M, replace=False, p=(distributions==0.0)/(len(distributions) - available_M))
+            indices = np.concat(indices, additional_indices)
+        
+        self.indices = indices
+        print(self.indices, M)
+
+    def _step(self, m, w, **kwargs):
+        w[self.indices[m]] = 1.
+        return w
+
 class FrankWolfe(CoresetConstruction):
     def __init__(self, acq, data, posterior, dotprod_fn=None, **kwargs):
         """
