@@ -160,19 +160,22 @@ class Argmax(ImportanceSampling):
 
 class PBALD(ImportanceSampling):
 
-    def __init_build(self, M=1, seed=None):
-        pass
-
-    def _step(self, m, w, **kwargs):
+    def _init_build(self, M=1, seed=None):
         distributions = np.clip(self.scores, 0, None)
         distributions /= distributions.sum()
 
-        if (distributions > 0).sum() < m:
-            distributions = np.ones_like(distributions) / len(distributions)
-            w[distributions] = 1.
-        else:
-            indices = np.random.choice(len(distributions), m, replace=False, p=distributions)
-            w[indices] = 1.
+        available_M = (distributions > 0).sum()
+        indices = np.random.choice(len(distributions), min(M, available_M), replace=False, p=distributions)
+        
+        if available_M < M:
+            additional_indices = np.random.choice(len(distributions), M - available_M, replace=False, p=(distributions==0.0)/(len(distributions) - available_M))
+            indices = np.concat(indices, additional_indices)
+        
+        self.indices = indices
+        print(self.indices, M)
+
+    def _step(self, m, w, **kwargs):
+        w[self.indices[m]] = 1.
         return w
 
 class FrankWolfe(CoresetConstruction):

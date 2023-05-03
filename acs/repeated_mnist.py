@@ -21,7 +21,7 @@ def create_repeated_MNIST_dataset(*, num_repetitions: int = 3, seed: int = 222, 
         Y_train = torch.concat([Y_train] * num_repetitions)
 
     if add_noise:
-        dataset_noise = torch.empty((len(X_train), 28, 28), dtype=torch.float32).normal_(0.0, 0.1, generator=torch.manual_seed(seed))
+        dataset_noise = torch.empty((len(X_train), 28, 28), dtype=torch.float32).normal_(0.0, 0.1, generator=torch.Generator().manual_seed(seed))
 
         X_train = X_train.float()
         for idx in range(len(X_train)):
