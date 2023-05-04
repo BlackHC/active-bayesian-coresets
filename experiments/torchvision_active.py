@@ -79,8 +79,10 @@ if __name__ == '__main__':
     title_str = args.coreset if args.coreset in ['Random', 'Best'] else '{} {} (M={})'.format(
         args.acq, args.coreset, args.batch_size)
     # batch_size = utils.get_batch_size(args.init_num_labeled)
-    batch_size = 256
-    optim_params = {'num_epochs': args.training_epochs, 'batch_size': batch_size,
+    # batch_size = 256
+    batch_size = 16
+    training_epochs = 65
+    optim_params = {'num_epochs': training_epochs, 'batch_size': batch_size,
                     'weight_decay': args.weight_decay, 'initial_lr': args.initial_lr,
                     'train_transform': train_transform, 'val_transform': test_transform}
     kwargs = {'metric': 'Acc', 'feature_extractor': model, 'num_features': args.num_features}
