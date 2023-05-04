@@ -79,8 +79,10 @@ if __name__ == '__main__':
     save_dir = utils.create_dir(args.save_dir, args.dataset, postfix=dir_string)
     title_str = '{} {} (M={}, J={}, g={})'.format(args.acq, args.coreset, args.batch_size, args.num_projections, args.gamma)
     # batch_size = utils.get_batch_size(args.init_num_labeled)
-    batch_size = 256
-    optim_params = {'num_epochs': args.training_epochs, 'batch_size': batch_size, 'initial_lr': args.initial_lr,
+    # batch_size = 256
+    batch_size = 16
+    training_epochs = 65
+    optim_params = {'num_epochs': training_epochs, 'batch_size': batch_size, 'initial_lr': args.initial_lr,
                     'weight_decay': args.weight_decay, 'weight_decay_theta': args.weight_decay_theta,
                     'train_transform': train_transform, 'val_transform': test_transform}
     kwargs = {'metric': 'Acc', 'feature_extractor': model, 'num_features': args.num_features}

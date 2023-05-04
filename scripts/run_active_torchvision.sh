@@ -2,8 +2,8 @@
 
 
 batch_sizes=("25")
-init_num_labeled=350
-budget=500
+init_num_labeled=20
+budget=125
 dataset=$3
 
 if [ $dataset == "cifar10" ]; then
@@ -24,3 +24,6 @@ for batch_size in "${batch_sizes[@]}"; do
         python -m experiments.torchvision_active --acq $1 --coreset $2 --dataset $dataset --batch_size $batch_size --seed $seed --budget $budget --init_num_labeled $init_num_labeled --num_features 32 --freq_summary 50 --weight_decay $weight_decay
     done
 done
+
+# ./scripts/run_active_torchvision.sh PBALD PBALD dirty_mnist
+# ./scripts/run_active_torchvision.sh BALD Argmax dirty_mnist

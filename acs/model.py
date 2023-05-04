@@ -8,6 +8,7 @@ from torch.distributions.multivariate_normal import MultivariateNormal as MVN
 
 import acs.utils as utils
 from acs.al_data_set import Dataset
+from acs.repeated_mnist import RandomFixedLengthSampler
 
 from sklearn.metrics import roc_auc_score
 
@@ -310,8 +311,10 @@ class NeuralLinear(torch.nn.Module):
         ], lr=initial_lr)
 
         scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, num_epochs, eta_min=1e-5)
+        train_data = Dataset(data, 'train', transform=kwargs.get('transform', None)) 
         dataloader = DataLoader(
-            dataset=Dataset(data, 'train', transform=kwargs.get('transform', None)),
+            dataset=train_data,
+            sampler=RandomFixedLengthSampler(train_data, target_length=1024),
             batch_size=batch_size,
             shuffle=True,
             drop_last=True
