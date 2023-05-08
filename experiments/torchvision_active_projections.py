@@ -9,8 +9,7 @@ import acs.utils as utils
 from acs.coresets import ProjectedFrankWolfe
 from acs.al_data_set import Dataset, ActiveLearningDataset as ALD
 
-# from resnet.resnets import resnet18
-from acs.repeated_mnist import LeNetv2
+from resnet.resnets import resnet18
 
 
 parser = argparse.ArgumentParser()
@@ -24,7 +23,7 @@ parser.add_argument("--dataset", default='cifar10', help="Torchvision dataset")
 parser.add_argument("--model_file", default='./models/best.pth.tar', help="Model directory")
 
 # optimization params
-parser.add_argument('--training_epochs', type=int, default=250, help='Number of training iterations')
+parser.add_argument('--training_epochs', type=int, default=64, help='Number of training iterations')
 parser.add_argument('--initial_lr', type=float, default=1e-3, help='Learning rate for optimization')
 parser.add_argument('--freq_summary', type=int, default=100, help='Print frequency during training')
 parser.add_argument('--weight_decay', type=float, default=5e-4, help='Add weight decay for feature extractor')
@@ -58,8 +57,7 @@ if __name__ == '__main__':
         if args.dataset == 'svhn':
             num_test_points = 26032
 
-    # model = resnet18(pretrained=args.pretrained_model, pretrained_model_file=args.model_file, resnet_size=84)
-    model = LeNetv2()
+    model = resnet18(pretrained=args.pretrained_model, pretrained_model_file=args.model_file, resnet_size=84)
     model = utils.to_gpu(model)
     dataset = utils.get_torchvision_dataset(
         name=args.dataset,
@@ -79,10 +77,8 @@ if __name__ == '__main__':
     save_dir = utils.create_dir(args.save_dir, args.dataset, postfix=dir_string)
     title_str = '{} {} (M={}, J={}, g={})'.format(args.acq, args.coreset, args.batch_size, args.num_projections, args.gamma)
     # batch_size = utils.get_batch_size(args.init_num_labeled)
-    # batch_size = 256
-    batch_size = 16
-    training_epochs = 65
-    optim_params = {'num_epochs': training_epochs, 'batch_size': batch_size, 'initial_lr': args.initial_lr,
+    batch_size = 256
+    optim_params = {'num_epochs': args.training_epochs, 'batch_size': batch_size, 'initial_lr': args.initial_lr,
                     'weight_decay': args.weight_decay, 'weight_decay_theta': args.weight_decay_theta,
                     'train_transform': train_transform, 'val_transform': test_transform}
     kwargs = {'metric': 'Acc', 'feature_extractor': model, 'num_features': args.num_features}
@@ -97,8 +93,6 @@ if __name__ == '__main__':
     else:
         raise ValueError('Invalid inference method: {}'.format(args.inference))
 
-    #lenet
-    kwargs['num_features'] = 84
     print('==============================================================================================')
     print(title_str)
     print('==============================================================================================')

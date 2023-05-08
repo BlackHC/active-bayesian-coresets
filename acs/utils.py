@@ -148,7 +148,6 @@ def get_torchvision_dataset(name, model=None, encode=False, seed=111, data_dir='
         X_train, Y_train = train.data, train.labels
         X_test, Y_test = test.data, test.labels
         X = np.vstack((X_train, X_test))
-
     else:
         if name == 'repeated_mnist':
             X_train, Y_train, test = create_repeated_MNIST_dataset(seed=seed)
@@ -158,6 +157,7 @@ def get_torchvision_dataset(name, model=None, encode=False, seed=111, data_dir='
             test = data_loader(root=data_dir + name, train=False, download=True)
             X_train, Y_train = train.data, train.targets
             X_test, Y_test = test.data, test.targets
+
         if name == 'fashion_mnist' or name == 'repeated_mnist':
             X_train = X_train[..., None]
             X_test = X_test[..., None]
