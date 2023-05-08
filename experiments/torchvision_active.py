@@ -51,7 +51,7 @@ if __name__ == '__main__':
     torch.manual_seed(args.seed)
 
     num_test_points = 10000
-    if args.dataset == 'fashion_mnist' or args.dataset == 'dirty_mnist':
+    if args.dataset == 'fashion_mnist' or args.dataset == 'repeated_mnist':
         from acs.al_data_set import mnist_train_transform as train_transform, mnist_test_transform as test_transform
     else:
         from acs.al_data_set import torchvision_train_transform as train_transform, torchvision_test_transform as test_transform

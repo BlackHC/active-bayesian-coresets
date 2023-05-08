@@ -15,7 +15,7 @@ elif [ $dataset == "svhn" ]; then
     weight_decay=5e-4
 elif [ $dataset == "fashion_mnist" ]; then
     weight_decay=5e-4
-elif [ $dataset == "dirty_mnist" ]; then
+elif [ $dataset == "repeated_mnist" ]; then
     weight_decay=5e-4
 fi
 
@@ -25,5 +25,5 @@ for batch_size in "${batch_sizes[@]}"; do
     done
 done
 
-# ./scripts/run_active_torchvision.sh PBALD PBALD dirty_mnist
-# ./scripts/run_active_torchvision.sh BALD Argmax dirty_mnist
+# ./scripts/run_active_torchvision.sh PBALD PBALD repeated_mnist
+# ./scripts/run_active_torchvision.sh BALD Argmax repeated_mnist

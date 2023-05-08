@@ -13,7 +13,7 @@ elif [ $dataset == "svhn" ]; then
 elif [ $dataset == "fashion_mnist" ]; then
     weight_decay=5e-4
     weight_decay_theta=5e-4
-elif [ $dataset == "dirty_mnist" ]; then
+elif [ $dataset == "repeated_mnist" ]; then
     weight_decay=5e-4
     weight_decay_theta=5e-4
 fi
@@ -24,4 +24,4 @@ for proj in "${num_projections[@]}"; do
     done
 done
 
-#  ./scripts/run_active_torchvision_projections.sh FW dirty_mnist
+#  ./scripts/run_active_torchvision_projections.sh FW repeated_mnist
