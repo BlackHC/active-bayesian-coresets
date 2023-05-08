@@ -142,6 +142,8 @@ def load_and_plot(excludes, filters, save_dir, **plt_kwargs):
                     algo = algo.split(' ')[0]
                     if algo == 'Entropy':
                         algo = 'MaxEnt'
+                    elif algo == 'PBALD':
+                        algo = 'PBALD'
             except IndexError:
                 pass
 
@@ -179,8 +181,8 @@ if __name__ == '__main__':
     # plt_kwargs['ylim'] = [0.5, 4.5]
 
     # year
-    plt_kwargs['use_legend'] = True
-    plt_kwargs['ylim'] = [12., 22.]
+    # plt_kwargs['use_legend'] = True
+    # plt_kwargs['ylim'] = [12., 22.]
 
     # cifar10
     # plt_kwargs['ylim'] = [0.70, 0.88]
@@ -191,6 +193,10 @@ if __name__ == '__main__':
     # FASHION MNIST
     # plt_kwargs['use_legend'] = True
     # plt_kwargs['ylim'] = [0.82, 0.94]
+
+    # Repeated MNIST
+    plt_kwargs['use_legend'] = True
+    plt_kwargs['ylim'] = [0.5, 1]
 
     metadata = get_metadata()
     if len(SPLIT) > 0:
