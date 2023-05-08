@@ -8,7 +8,7 @@ from torch.distributions.multivariate_normal import MultivariateNormal as MVN
 
 import acs.utils as utils
 from acs.al_data_set import Dataset
-from acs.repeated_mnist import RandomFixedLengthSampler
+from acs.repeated_mnist import RandomFixedLengthSampler, LeNetv2
 
 from sklearn.metrics import roc_auc_score
 
@@ -515,8 +515,11 @@ class NeuralClassification(nn.Module):
             self.num_features = num_features
 
         # changed for lenet
-        # self.fc1 = nn.Linear(in_features=512, out_features=self.num_features, bias=True)
-        self.fc1 = nn.Linear(in_features=120, out_features=self.num_features, bias=True)
+        if isinstance(self.feature_extractor, LeNetv2):
+            in_features = 120
+        else:
+            in_features = 512
+        self.fc1 = nn.Linear(in_features=in_features, out_features=self.num_features, bias=True)
         self.fc2 = nn.Linear(in_features=self.num_features, out_features=self.num_features, bias=True)
         nn.init.xavier_normal_(self.fc1.weight)
         nn.init.xavier_normal_(self.fc2.weight)
