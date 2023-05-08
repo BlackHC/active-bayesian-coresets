@@ -191,6 +191,13 @@ def class_bald(theta_mean, theta_cov, X, model=None, num_samples=100):
     return (bald_term_1 - bald_term_2).cpu().numpy()
 
 
+def class_pbald(theta_mean, theta_cov, X, model=None, num_samples=100, temp=1.0) -> np.ndarray:
+    scores = class_bald(theta_mean, theta_cov, X, model, num_samples)
+    scores = scores ** (1 / temp)
+    scores = scores / scores.sum()
+    return scores
+
+
 def class_maxent(theta_mean, theta_cov, X, model=None, num_samples=100):
     """
     Computes MaxEnt acquisition function for categorical predictive posterior.
