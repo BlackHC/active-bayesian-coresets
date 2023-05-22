@@ -10,6 +10,25 @@ Additional changes: Parmida Atighehchian and Andreas Kirsch.
 
 Caveat: no \beta ablation for now.
 
+FashionMNIST, RepeatedMNIST using LeNet
+
+SVHN, CIFAR-10 using ResNet-18
+
+BALD (using PowerBALD, SoftmaxBALD, SoftrankBALD), Random
+
+ACS using FW
+
+on MNISTs: budget: 320 (400), acquisition batch sizes: 25, 50, 100
+initial set 20, 100
+
+on SVHN: budget 8000, acquisition batch sizes: 250, 500, 1000, 2000
+initial set 1000, 3000
+
+on CIFAR-10: budget 16000, acquisition batch sizes: 250, 500, 1000, 2000, 4000
+initial set 1000, 4000
+
+From the paper: 100 posterior samples, 10 projection dim.
+
 ## Dependencies and Data Requirements
 
 This code requires the following:
@@ -24,6 +43,8 @@ This code requires the following:
 * gtimer
 
 To run the regression experiments, please [download](http://archive.ics.uci.edu/ml/datasets.php) the UCI regression datasets and place them into ./data.
+
+
 
 ## GPU Requirements
 * The code supports experiments on either GPU or CPU processors.
