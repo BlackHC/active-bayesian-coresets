@@ -131,11 +131,11 @@ def get_torchvision_dataset(name, model=None, encode=False, seed=111, data_dir='
     :return: Inputs, outputs, and splits
     """
     if name == 'cifar10':
-        data_loader = torchvision.datasets.CIFAR10
+        dataset_factory = torchvision.datasets.CIFAR10
     elif name == 'svhn':
-        data_loader = torchvision.datasets.SVHN
+        dataset_factory = torchvision.datasets.SVHN
     elif name == 'fashion_mnist':
-        data_loader = torchvision.datasets.FashionMNIST
+        dataset_factory = torchvision.datasets.FashionMNIST
     elif name == 'repeated_mnist':
         pass
     else:
@@ -143,8 +143,8 @@ def get_torchvision_dataset(name, model=None, encode=False, seed=111, data_dir='
 
     np.random.seed(seed)
     if name == 'svhn':
-        train = data_loader(root=data_dir + name, split='train', download=True)
-        test = data_loader(root=data_dir + name, split='test', download=True)
+        train = dataset_factory(root=data_dir + name, split='train', download=True)
+        test = dataset_factory(root=data_dir + name, split='test', download=True)
         X_train, Y_train = train.data, train.labels
         X_test, Y_test = test.data, test.labels
         X = np.vstack((X_train, X_test))
@@ -153,8 +153,8 @@ def get_torchvision_dataset(name, model=None, encode=False, seed=111, data_dir='
             X_train, Y_train, test = create_repeated_MNIST_dataset(seed=seed)
             X_test, Y_test = test.data, test.targets
         else:
-            train = data_loader(root=data_dir + name, train=True, download=True)
-            test = data_loader(root=data_dir + name, train=False, download=True)
+            train = dataset_factory(root=data_dir + name, train=True, download=True)
+            test = dataset_factory(root=data_dir + name, train=False, download=True)
             X_train, Y_train = train.data, train.targets
             X_test, Y_test = test.data, test.targets
 

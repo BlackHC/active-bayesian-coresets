@@ -583,8 +583,10 @@ class NeuralClassification(nn.Module):
 
         scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, num_epochs, eta_min=1e-5)
 
+        train_data = Dataset(data, 'train', transform=train_transform)
         dataloader = DataLoader(
-            dataset=Dataset(data, 'train', transform=train_transform),
+            dataset=train_data,
+            sampler=RandomFixedLengthSampler(train_data, target_length=1024),
             batch_size=batch_size,
             shuffle=True,
             drop_last=True,
