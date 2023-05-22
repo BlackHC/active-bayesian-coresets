@@ -4,18 +4,15 @@
 num_projections=("10")
 dataset=$2
 
-if [ $dataset == "cifar10" ]; then
-    weight_decay=5e-4
-    weight_decay_theta=5e-4
-elif [ $dataset == "svhn" ]; then
-    weight_decay=5e-4
-    weight_decay_theta=5e-4
-elif [ $dataset == "fashion_mnist" ]; then
+if [ $dataset == "fashion_mnist" ]; then
     weight_decay=5e-4
     weight_decay_theta=5e-4
 elif [ $dataset == "repeated_mnist" ]; then
     weight_decay=5e-4
     weight_decay_theta=5e-4
+else
+  # Error out
+  echo "Dataset not supported for LeNet model."
 fi
 
 for proj in "${num_projections[@]}"; do

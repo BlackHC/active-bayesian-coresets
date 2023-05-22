@@ -8,7 +8,7 @@ import time
 
 import acs.utils as utils
 import acs.acquisition_functions as A
-from acs.coresets import Argmax, Random, KCenter, KMedoids, PBALD
+from acs.coresets import Argmax, Random, KCenter, KMedoids, StochasticSampling
 from acs.al_data_set import Dataset, ActiveLearningDataset as ALD
 
 from resnet.resnets import resnet18
@@ -103,8 +103,12 @@ if __name__ == '__main__':
         acq = A.class_bald
     elif args.acq == 'Entropy':
         acq = A.class_maxent
-    elif args.acq == 'PBALD':
-        acq = A.class_pbald
+    elif args.acq == 'PowerBALD':
+        acq = A.class_powerbald
+    elif args.acq == 'SoftmaxBALD':
+        acq = A.class_softmaxbald
+    elif args.acq == 'SoftrankBALD':
+        acq = A.class_softrankbald
     elif args.acq == 'None':
         acq = lambda *args, **kwargs: None  # not needed
     else:
@@ -112,8 +116,8 @@ if __name__ == '__main__':
 
     if args.coreset == 'Argmax':
         coreset = Argmax
-    elif args.coreset == 'PBALD':
-        coreset = PBALD
+    elif args.coreset == 'Stochastic':
+        coreset = StochasticSampling
     elif args.coreset == 'Random':
         coreset = Random
     elif args.coreset == 'KMedoids':

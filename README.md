@@ -4,6 +4,12 @@ This repository contains the code to reproduce the experiments carried out in
 
 The code has been authored by: Robert Pinsler and Jonathan Gordon.
 
+Additional changes: Parmida Atighehchian and Andreas Kirsch.
+
+## Additional Experiments for Stochastic Batch Acquisition
+
+Caveat: no \beta ablation for now.
+
 ## Dependencies and Data Requirements
 
 This code requires the following:

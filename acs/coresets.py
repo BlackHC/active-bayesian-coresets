@@ -158,7 +158,7 @@ class Argmax(ImportanceSampling):
         return w
 
 
-class PBALD(ImportanceSampling):
+class StochasticSampling(ImportanceSampling):
 
     def _init_build(self, M=1, seed=None):
         distributions = np.clip(self.scores, 0, None)
@@ -166,13 +166,14 @@ class PBALD(ImportanceSampling):
 
         available_M = (distributions > 0).sum()
         indices = np.random.choice(len(distributions), min(M, available_M), replace=False, p=distributions)
-        
+
+        # This is only in case we run out of points != 0.
         if available_M < M:
             additional_indices = np.random.choice(len(distributions), M - available_M, replace=False, p=(distributions==0.0)/(len(distributions) - available_M))
             indices = np.concat(indices, additional_indices)
         
         self.indices = indices
-        print(self.indices, M)
+        # print(self.indices, M)
 
     def _step(self, m, w, **kwargs):
         w[self.indices[m]] = 1.
