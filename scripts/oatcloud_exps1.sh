@@ -88,7 +88,7 @@ function run_acq_job {
 
 # We start with the seed in the outer loop, because we want to run different jobs first before running the same job
 # with a different seed.
-for seed in "1231212"; do # "2139843534" "9438745"; do
+for seed in "1231212" "2139843534" "9438745"; do
   # FashionMNIST, RepeatedMNIST using LeNet
   # MNISTs: initial set/budget: 20/320 100/400; acquisition batch sizes: 5, 25, 50, 100
   for dataset in "fashion_mnist" "repeated_mnist"; do
