@@ -70,8 +70,8 @@ if __name__ == '__main__':
     init_num_labeled = len(dataset[1]['train']) if args.coreset == 'Best' else args.init_num_labeled
     data = ALD(dataset, init_num_labeled=init_num_labeled, normalize=False)
 
-    dir_string = 'acq_{}_cs_{}_batch_{}_gamma_{}_budget_{}_seed_{}'.format(
-        args.acq.lower(), args.coreset.lower(), args.batch_size, str(args.gamma).replace('.', ''), args.budget, args.seed
+    dir_string = 'acq_{}_cs_{}_batch_{}_labeled_{}_gamma_{}_budget_{}_seed_{}'.format(
+        args.acq.lower(), args.coreset.lower(), args.batch_size, args.init_num_labeled, str(args.gamma).replace('.', ''), args.budget, args.seed
     )
     save_dir = utils.create_dir(args.save_dir, args.dataset, postfix=dir_string)
     title_str = '{} {} (M={}, J={}, g={})'.format(args.acq, args.coreset, args.batch_size, args.num_projections, args.gamma)
