@@ -316,7 +316,6 @@ class NeuralLinear(torch.nn.Module):
             dataset=train_data,
             sampler=RandomFixedLengthSampler(train_data, target_length=1024),
             batch_size=batch_size,
-            shuffle=True,
             drop_last=True
         )
         for epoch in range(num_epochs):
@@ -586,9 +585,8 @@ class NeuralClassification(nn.Module):
         train_data = Dataset(data, 'train', transform=train_transform)
         dataloader = DataLoader(
             dataset=train_data,
-            sampler=RandomFixedLengthSampler(train_data, target_length=1024),
+            sampler=RandomFixedLengthSampler(train_data, target_length=4096),
             batch_size=batch_size,
-            shuffle=True,
             drop_last=True,
             num_workers=4
         )

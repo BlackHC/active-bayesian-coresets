@@ -88,7 +88,7 @@ function run_acq_job {
 
 # We start with the seed in the outer loop, because we want to run different jobs first before running the same job
 # with a different seed.
-for seed in "1231212"; do # "2139843534" "9438745"; do
+for seed in "1231212" "2139843534" "9438745"; do
   # FashionMNIST, RepeatedMNIST using LeNet
   # MNISTs: initial set/budget: 20/320 100/400; acquisition batch sizes: 5, 25, 50, 100
   for dataset in "fashion_mnist" "repeated_mnist"; do
@@ -100,22 +100,22 @@ for seed in "1231212"; do # "2139843534" "9438745"; do
       # seed=$4
       # model=$5
       # init_num_labeled=$6
-      run_acq_job $dataset $batch_size 320 $seed "LeNet" 20
-      run_acq_job $dataset $batch_size 400 $seed "LeNet" 100
+      run_acq_job $dataset $batch_size 200 $seed "LeNet" 20
+      run_acq_job $dataset $batch_size 200 $seed "LeNet" 100
     done
   done
   # on SVHN: initial set: 1000, 3000; budget 8000; acquisition batch sizes: 250, 500, 1000, 2000
   for dataset in "svhn"; do
     for batch_size in "250" "500" "1000" "2000"; do
-      run_acq_job $dataset $batch_size 8000 $seed "ResNet18" 1000
-      run_acq_job $dataset $batch_size 8000 $seed "ResNet18" 3000
+      run_acq_job $dataset $batch_size 6000 $seed "ResNet18" 1000
+      run_acq_job $dataset $batch_size 4000 $seed "ResNet18" 3000
     done
   done
   # on CIFAR-10: initial set: 1000, 4000; budget: 16000; acquisition batch sizes: 250, 500, 1000, 2000, 4000
   for dataset in "cifar10"; do
     for batch_size in "250" "500" "1000" "2000" "4000"; do
       run_acq_job $dataset $batch_size 16000 $seed "ResNet18" 1000
-      run_acq_job $dataset $batch_size 16000 $seed "ResNet18" 4000
+      run_acq_job $dataset $batch_size 12000 $seed "ResNet18" 5000
     done
   done
 done
