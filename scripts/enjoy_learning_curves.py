@@ -13,10 +13,11 @@ parser.add_argument("--eval_at", default=None, help="x-axis, e.g. num_evals, wt,
 parser.add_argument("--format", default='png', help="File format, e.g. png, pdf")
 args = parser.parse_args()
 
-EXCLUDE = {'acq': ['varratios'],
-           'coreset': ['is', 'best', 'imputed'],
-           'batch': ["1", "5", "20"]
-           }
+EXCLUDE = {}
+# {'acq': ['varratios'],
+#            'coreset': ['is', 'best', 'imputed'],
+#            'batch': ["1", "5", "20"]
+#            }
 
 FILTER = {'acq': [],
           'coreset': [],
