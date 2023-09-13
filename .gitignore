@@ -2,7 +2,6 @@
 experiments/*/
 *.png
 *.jpg
-*.pdf
 *.npy
 
 # Byte-compiled / optimized / DLL files
